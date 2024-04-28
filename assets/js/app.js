@@ -54,7 +54,29 @@ async function getDataFromApi(latitude, longitude) {
             }
 
             var timings = data.timings;
+            var timingNames = Object.keys(timings);
+            let thead=document.querySelector("thead tr");
+            var timingsTableBody = document.querySelector('#timingsTableBody tr');
+            for (var i = 0; i < timingNames.length; i++) {
+                console.log(timingNames[i]);
+                var timingTime = timings[timingNames[i]]; // Access timing time by indexing timingNames
+    console.log(` ${timingTime}`);
+                thead.innerHTML+=`
+                <th scope="col">${timingNames[i]}</th>
+                `
+                timingsTableBody.innerHTML+=`                        <td>${timingTime}</td>
+                `
+
+            }
             console.log('Timings for the current day:', timings);
+
+        //     for(var key in timings){
+        //         var row = `<tr>
+        //                <td>${key}</td>
+        //                <td>${localTimings[key]}</td>
+        //            </tr>`;
+        // timingsTableBody.innerHTML += row;
+        //     }
         })
         .catch(error => console.error('Error fetching data:', error));
 }
