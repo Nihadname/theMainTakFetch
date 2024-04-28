@@ -47,7 +47,7 @@ async function getDataFromApi(latitude, longitude) {
             
             var today = new Date().getDate();
             console.log(today);
-            var data = json.data.find(item => parseInt(item.date.gregorian.day) - 1 === today);
+            var data = json.data.find(item => parseInt(item.date.gregorian.day) === today);
             if (!data) {
                 console.error('Timings for the current day not found');
                 return;
@@ -134,6 +134,7 @@ async function getDataFromApi(latitude, longitude) {
         // timingsTableBody.innerHTML += row;
         //     }
         })
+        console.log(json.data)
         .catch(error => console.error('Error fetching data:', error));
 }
 
