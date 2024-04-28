@@ -43,7 +43,7 @@ async function getDataFromApi(latitude, longitude) {
     await fetch(apiUrl)
         .then(res => res.json())
         .then(json => {
-            console.log('API Response:', json);
+            console.log('API Response:', json.data);
             
             var today = new Date().getDate();
             console.log(today);
@@ -59,7 +59,7 @@ async function getDataFromApi(latitude, longitude) {
             var timingsTableBody = document.querySelector('#timingsTableBody tr');
             for (var i = 0; i < timingNames.length; i++) {
                 console.log(timingNames[i]);
-                var timingTime = timings[timingNames[i]]; // Access timing time by indexing timingNames
+                var timingTime = timings[timingNames[i]]; 
     console.log(` ${timingTime}`);
                 thead.innerHTML+=`
                 <th scope="col">${timingNames[i]}</th>
@@ -70,6 +70,62 @@ async function getDataFromApi(latitude, longitude) {
             }
             console.log('Timings for the current day:', timings);
 
+            var sesondOneWhole = document.querySelector(".sesondOneWhole");
+            var data = json.data;
+            let ArrayToCollect = [];
+            
+            for (let i = 0; i < data.length; i++) {
+                let dayNumber = parseInt(data[i].date.gregorian.day);
+                if (!ArrayToCollect.includes(dayNumber)) {
+                    ArrayToCollect.push(dayNumber);
+                }
+            }
+            ArrayToCollect.sort((a, b) => a - b);
+            
+            var tableHTML = `
+                <table class="table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Day</th>
+                            <th scope="col">Fajr</th>
+                            <th scope="col">Sunrise</th>
+                            <th scope="col">Dhuhr</th>
+                            <th scope="col">Asr</th>
+                            <th scope="col">Sunset</th>
+                            <th scope="col">Maghrib</th>
+                            <th scope="col">Isha</th>
+                            <th scope="col">Imsak</th>
+                            <th scope="col">Midnight</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            let tableAll2 = ''; 
+
+            for (let index = 0; index < ArrayToCollect.length; index++) {
+                const element = ArrayToCollect[index];
+                let checkedData = data.find(item => parseInt(item.date.gregorian.day) === element);
+                if (checkedData) {
+                    let namazTimings = checkedData.timings;
+                    // Concatenate the table rows for each day
+                    tableAll2 += `
+                        <tr>    
+                            <td>${element}</td>
+                            <td>${namazTimings.Fajr}</td>
+                            <td>${namazTimings.Sunrise}</td>
+                            <td>${namazTimings.Dhuhr}</td>
+                            <td>${namazTimings.Asr}</td>
+                            <td>${namazTimings.Sunset}</td>
+                            <td>${namazTimings.Maghrib}</td>
+                            <td>${namazTimings.Isha}</td>
+                            <td>${namazTimings.Imsak}</td>
+                            <td>${namazTimings.Midnight}</td>
+                        </tr>`;
+                }
+            }
+            
+            sesondOneWhole.innerHTML = tableAll2; 
+            
         //     for(var key in timings){
         //         var row = `<tr>
         //                <td>${key}</td>
