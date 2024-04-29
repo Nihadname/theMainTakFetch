@@ -8,11 +8,12 @@
 </head>
 <body>
     <div class="container">
-    
         <div class="d-flex here flex-column w-25 gap-3 ">
-            <input type="text" class="city">
-           
-            <button onclick="getDataFromApi()">get results</button>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control city mt-5 " placeholder="Enter city" aria-label="Enter city" aria-describedby="basic-addon1">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="getDataFromApi()">Get Results</button>
+            <div class="result"></div> <!-- Placeholder for displaying results -->
         </div>
     </div>
     <script src="./assets/js/app2.js"></script>

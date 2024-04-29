@@ -1,20 +1,19 @@
-async function getDataFromApi(city) {
-    let City = document.querySelector(".city").value;
-    console.log("City:", City);
+let newp = document.createElement("p");
+let newp2 = document.createElement("p");
+let newp3 = document.createElement("p");
+let resultContainer = document.querySelector(".result");
+
+async function getDataFromApi() {
+    resultContainer.innerHTML = ''; 
+    let city = document.querySelector(".city").value.trim();
     
-    if (!City) {
-        console.error("City is undefined or empty.");
+    if (city === '') {
+        alert("Please enter a city name.");
         return;
     }
-let here=document.querySelector(".here")
-    let newp=document.createElement("p");
-    newp.textContent="city:"+City;
-    here.appendChild(newp);
- 
-
-    let apiUrl = `https://api.weatherapi.com/v1/current.json?key=6bc15cfb31414fbda9f95625221905&q=${City}`;
 
     try {
+        let apiUrl = `https://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q=${city}`;
         const response = await fetch(apiUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -22,10 +21,14 @@ let here=document.querySelector(".here")
         const data = await response.json();
         console.log(data);
         if (data.location && data.location.country) {
-            let newp2 = document.createElement("p");
+            newp.textContent = "City: " + city;
+            resultContainer.appendChild(newp);
+
             newp2.textContent = "Country: " + data.location.country;
-            here.appendChild(newp2);
-            let newp3=document.createElement("p")
+            resultContainer.appendChild(newp2);
+
+            newp3.textContent = "Temperature: " + data.current.temp_c + "°C";
+            resultContainer.appendChild(newp3);
         } else {
             console.error("Country information not found in the data.");
         }
@@ -34,4 +37,3 @@ let here=document.querySelector(".here")
     }
 }
 
-getDataFromApi();
