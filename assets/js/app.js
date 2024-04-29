@@ -3,6 +3,10 @@ let latitude;
 let longitude;
 
 function getLocation() {
+    let thead=document.querySelector("thead tr");
+    thead.innerHTML='';
+    var timingsTableBody = document.querySelector('#timingsTableBody tr');
+    timingsTableBody.innerHTML=''
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else { 
@@ -134,7 +138,7 @@ async function getDataFromApi(latitude, longitude) {
         // timingsTableBody.innerHTML += row;
         //     }
         })
-        console.log(json.data)
+        //console.log(json.data)
         .catch(error => console.error('Error fetching data:', error));
 }
 
